@@ -1,7 +1,7 @@
 
-# Run commands without installing them
+# Run PHP, Composer, Node, and NPM via Docker
 
-Simple way to run any executedble without installing it on your host machine.
+Easily run popular developer tools without installing them natively—everything runs in Docker containers for maximum portability and cleanliness.
 
 # Requirements
 
@@ -33,52 +33,79 @@ Clone this repository.
 git clone git@github.com:galileo/docker-binaries
 ```
 
-Add `bin` directory to your executables.
-
-You need to modify your `PATH` variable. So open `.bash_rc` or `.bash_profile` or any other file where you are storing your variables and add this entry
+Add the `bin` directory to your PATH by editing your shell profile (e.g. `~/.zshrc` or `~/.bash_profile`):
 
 ```
-PATH=$PATH:{path_to_this_repository}/bin
+export PATH="$PATH:/path/to/this/repository/bin"
 ```
 
-> NOTE: For osx users there is a problem with `php`. As OSX comes with preinstalled version of `php` the `php` will not work. There is `run-php` alias command. More info [here](../../tree/docker-for-mac#limitations)
+Reload your shell or run `source ~/.zshrc` (or appropriate file) to apply.
 
-> NOTE 2: There are some limitations with the `Docker for mac` for networking features.
-
-> NOTE 3: Please look into our [Docker for mac](../../tree/docker-for-mac) branch  for more information.
 
 # Usage
 
 ## Prerequisites
 
-You need to unistall your existing installations of commands that we provide you with this repo. Or you need to change the names for those command if you want to use both.
+If you already have local installations of node, npm, php, or composer, you can still use these Docker-based wrappers by ensuring your PATH prioritizes this repo's `bin/` directory. No need to uninstall your local tools unless you want to always use the Dockerized versions.
+
+### How to Prioritize the Docker Binaries
+
+Your shell uses the first matching executable it finds in the directories listed in your `PATH` variable, searching from left to right. By placing this repository's `bin/` directory at the front of your `PATH`, you ensure that commands like `php`, `composer`, `node`, and `npm` run the Dockerized versions instead of any native ones installed elsewhere.
+
+**Example:**
+
+Add this line to the top of your `~/.zshrc`, `~/.bash_profile`, or `~/.bashrc`:
+
+```sh
+export PATH="/path/to/this/repository/bin:$PATH"
+```
+
+After saving, reload your shell:
+
+```sh
+source ~/.zshrc   # or source ~/.bash_profile, depending on your shell
+```
+
+#### Checking Which Version Will Run
+
+You can check which binary will be used by running:
+
+```sh
+which php
+which composer
+which node
+which npm
+```
+
+If the output path points to this repository's `bin/` directory, the Dockerized version will run. If it points elsewhere, adjust your `PATH` so that `bin/` comes first.
+
+#### Troubleshooting
+- If you want to use the native version for a command temporarily, you can specify the full path (e.g., `/usr/local/bin/php -v`).
+- If you want to revert to the native version by default, move or remove the `bin/` directory from the front of your `PATH`.
 
 ## Running commands
 
-You can now run each of our commands.
+You can now use the following commands, which will be executed in Docker containers:
 
 ```bash
-npm -v && node -v && yarn -v && php -v && composer -v
+npm -v
+node -v
+php -v
+composer -v
+yarn -v
 ```
 
-# Version swtich
+# Version switching
 
-We relay this functionality on top of oficial docker images so we can switch versions for each our command as we would like to use the docker tags.
-
-To keep all usages as small as possible we are using as and distribution the smallests distributions, it can be `alpine` or in some cases `slim`.
-
-For each supported command there is equivalent of DockerBinary environment variable. If you don't change the variable we are using always the `latest` available version.
-
-## Using environemnt variables
-
-Run latest `node.js` version for different relase:
+You can control which version of each tool is used by setting the appropriate environment variable before the command. For example:
 
 ```
-DB_NODE_VERSION=7 node -v
-> v7.10.0
+DB_NODE_VERSION=20 node -v   # Runs Node.js 20.x
+DB_PHP_VERSION=8 php -v      # Runs PHP 8.x
+DB_COMPOSER_VERSION=2 composer -v # Runs Composer 2.x
+```
 
-DB_NODE_VERSION=8 node -v
-> v8.1.2
+By default, the latest version is used. Most images use the `alpine` variant for smaller size.
 ```
 
 Run very speficic `node.js` release:
