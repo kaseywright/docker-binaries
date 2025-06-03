@@ -47,19 +47,19 @@ if [ "$TTY" = "" ]
   else
     TTY="-it"
 fi
-
+echo docker run $TTY -v "${HOME}:${HOME}" -v "${HOME}":/root -v "${PWD}:${PWD}" -v /tmp/:/tmp/ -w "${PWD}" $DOCKER_NETWORKING $DOCKER_USER --sig-proxy=true --pid=host --rm "${IMAGE_NAME}:${IMAGE_TAG_VERSION}" "${COMMAND_TO_EXECUTE}" "$@"
 docker run \
- "$TTY" \
- -v "${HOME}":"${HOME}" \
+ $TTY \
+ -v "${HOME}:${HOME}" \
  -v "${HOME}":/root \
- -v "${PWD}":"${PWD}" \
+ -v "${PWD}:${PWD}" \
  -v /tmp/:/tmp/ \
  -w "${PWD}" \
- "$DOCKER_NETWORKING" \
- "$DOCKER_USER" \
+ $DOCKER_NETWORKING \
+ $DOCKER_USER \
  --sig-proxy=true \
  --pid=host \
  --rm \
- "${IMAGE_NAME}":"${IMAGE_TAG_VERSION}" \
+ "${IMAGE_NAME}:${IMAGE_TAG_VERSION}" \
  "${COMMAND_TO_EXECUTE}" \
  "$@"
