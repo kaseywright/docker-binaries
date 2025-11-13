@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+set -e
+
+# FORCED_PORTS are osx requied only
+FORCED_PORTS=${DB_EXPOSE_PORTS:=""}
+
+VERSION=${DB_GO_VERSION:=""}
+DEFAULT_DISTRIBUTION=${DB_DISTRIBUTION:=alpine}
+
+IMAGE_NAME=golang \
+FORCED_PORTS=${FORCED_PORTS} \
+IMAGE_TAG_VERSION=${DEFAULT_DISTRIBUTION}${VERSION} \
+COMMAND_TO_EXECUTE=go \
+.docker_binary_execute "$@"
