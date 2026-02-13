@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+set -e
+
+# FORCED_PORTS are osx required only
+FORCED_PORTS=${DB_EXPOSE_PORTS:=""}
+
+VERSION=${DB_PYTHON_VERSION:=3.11}
+DEFAULT_DISTRIBUTION=${DB_DISTRIBUTION:=-alpine}
+
+export IMAGE_NAME=python
+export IMAGE_TAG_VERSION=${VERSION}${DEFAULT_DISTRIBUTION}
+export COMMAND_TO_EXECUTE=python
+
+.docker_binary_execute "$@"

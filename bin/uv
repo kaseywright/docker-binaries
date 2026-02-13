@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+set -e
+
+# FORCED_PORTS are osx required only
+FORCED_PORTS=${DB_EXPOSE_PORTS:=""}
+
+VERSION=${DB_UV_VERSION:=python3.14}
+DEFAULT_DISTRIBUTION=${DB_DISTRIBUTION:=-alpine}
+
+export IMAGE_NAME=astral/uv
+export IMAGE_TAG_VERSION=${VERSION}${DEFAULT_DISTRIBUTION}
+export COMMAND_TO_EXECUTE=uv
+
+.docker_binary_execute "$@"
+
+
