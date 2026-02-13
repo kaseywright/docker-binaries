@@ -24,6 +24,24 @@ For OSX limitations and workaround go to [OSX Doc](OSX.md)
 - `yarn`
 - `php`
 - `composer`
+- `go`
+- `python`
+- `uv`
+- `bun`
+
+## Container Images Used
+
+| Script | Base Image | Registry | Notes |
+|--------|------------|----------|-------|
+| `node`, `npm`, `yarn` | `node` | `docker.io/library/node` | Official Node.js images |
+| `php` | `php` | `docker.io/library/php` | Official PHP images |
+| `composer` | `composer` | `docker.io/library/composer` | Official Composer images |
+| `python` | `python` | `docker.io/library/python` | Official Python images |
+| `go` | `golang` | `docker.io/golang` | Official Go images |
+| `bun` | `oven/bun` | `docker.io/oven/bun` | Official Bun images |
+| `uv` | `astral/uv` | `docker.io/astral/uv` | Official UV images |
+
+All images use explicit `docker.io/` registry prefixes for optimal compatibility with both Docker and Podman.
 
 # Installation
 
@@ -75,6 +93,10 @@ which php
 which composer
 which node
 which npm
+which yarn
+which go
+which python
+which uv
 ```
 
 If the output path points to this repository's `bin/` directory, the Dockerized version will run. If it points elsewhere, adjust your `PATH` so that `bin/` comes first.
