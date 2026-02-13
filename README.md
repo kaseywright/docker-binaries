@@ -13,9 +13,9 @@ Docker Engine
 
 - All unixes with kernel over 3.10
 - Docker for mac
-- Docker for mac edge
 
 For OSX limitations and workaround go to [OSX Doc](OSX.md)
+_NOTE: the OSX Doc is not up to date_
 
 ## Supported commands
 
@@ -166,7 +166,3 @@ You can enable the TTY option with the environment settings:
 ```
 TTY=enable yarn init
 ```
-
-# Resources
-
-Article about how you can setup your own repository and how to install this one.
