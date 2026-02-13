@@ -1,11 +1,11 @@
 
-# Run PHP, Composer, Node, and NPM via Docker
+# Run PHP, Composer, Node, and NPM via Docker or Podman
 
-Easily run popular developer tools without installing them natively—everything runs in Docker containers for maximum portability and cleanliness.
+Easily run popular developer tools without installing them natively—everything runs in containers for maximum portability and cleanliness.
 
 # Requirements
 
-Docker Engine
+[Docker Engine](https://docs.docker.com/get-docker/) or [Podman](https://podman.io/)
 
 # Supported 
 
@@ -15,6 +15,8 @@ Docker Engine
 - Docker for mac
 
 For OSX limitations and workaround go to [OSX Doc](OSX.md)
+
+
 _NOTE: the OSX Doc is not up to date_
 
 ## Supported commands
