@@ -6,7 +6,7 @@ FORCED_PORTS=${DB_EXPOSE_PORTS:=""}
 
 VERSION=${DB_COMPOSER_VERSION:=latest}
 
-export IMAGE_NAME=composer
+export IMAGE_NAME=docker.io/library/composer
 export IMAGE_TAG_VERSION=${VERSION}
 export COMMAND_TO_EXECUTE=composer
 
