@@ -85,7 +85,7 @@ If the output path points to this repository's `bin/` directory, the Dockerized 
 
 ## Running commands
 
-You can now use the following commands, which will be executed in Docker containers:
+You can now use the following commands, which will be executed in containers:
 
 ```bash
 npm -v
@@ -106,7 +106,6 @@ DB_COMPOSER_VERSION=2 composer -v # Runs Composer 2.x
 ```
 
 By default, the latest version is used. Most images use the `alpine` variant for smaller size.
-```
 
 Run very speficic `node.js` release:
 
@@ -114,6 +113,23 @@ Run very speficic `node.js` release:
 DB_NODE_VERSION=8.0.0 node -v
 > v8.0.0
 ```
+
+## Container Runtime Selection
+
+The scripts automatically detect which container runtime is available on your system:
+
+- **Podman** is preferred if available (detected first)
+- **Docker** is used as a fallback if Podman is not found
+- If neither is found, an error is displayed
+
+You can override the automatic detection by setting the `DB_CONTAINER_RUNTIME` environment variable:
+
+```
+DB_CONTAINER_RUNTIME=podman node -v    # Force use of Podman
+DB_CONTAINER_RUNTIME=docker node -v    # Force use of Docker
+```
+
+The automatic detection makes the scripts work out of the box on most systems without requiring manual configuration.
 
 ## Enabling the TTY mode
 

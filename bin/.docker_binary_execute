@@ -5,6 +5,27 @@ set -e
 IMAGE_TAG_VERSION=${IMAGE_TAG_VERSION:=latest}
 DOCKER_USER=""
 
+# Auto-detect container runtime with user preference override
+detect_container_runtime() {
+  # Check if user has explicitly set a preference
+  if [ -n "$DB_CONTAINER_RUNTIME" ]; then
+    echo "$DB_CONTAINER_RUNTIME"
+    return 0
+  fi
+  
+  # Auto-detect available runtimes
+  if command -v podman >/dev/null 2>&1; then
+    echo "podman"
+  elif command -v docker >/dev/null 2>&1; then
+    echo "docker"
+  else
+    echo "Error: Neither docker nor podman found in PATH" >&2
+    exit 1
+  fi
+}
+
+CONTAINER_RUNTIME=$(detect_container_runtime)
+
 # "$(uname)" == "Darwin"
 # "$(expr substr $(uname -s) 1 5)" == "Linux"
 # "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT"
@@ -28,7 +49,7 @@ then
   fi
 elif [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]
 then
-  echo " >>> Executed in container at '$(uname -s)' host machine"
+  echo " >>> Executed in container at '$(uname -s)' host machine using $CONTAINER_RUNTIME"
   DOCKER_USER="--user=$(id -u)"
   DOCKER_NETWORKING=--net=host
 elif [ "$(expr substr $(uname -s) 1 10)" = "MINGW32_NT" ]
@@ -48,7 +69,7 @@ if [ "$TTY" = "" ]
     TTY="-it"
 fi
 
-docker run \
+$CONTAINER_RUNTIME run \
  $TTY \
  -v "${HOME}:${HOME}" \
  -v "${HOME}":/root \
